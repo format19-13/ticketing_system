@@ -15,7 +15,7 @@ defmodule TicketingSystemWeb.Router do
 
   scope "/", TicketingSystemWeb do
     pipe_through :browser # Use the default browser stack
-
+    resources "/users", UserController, only: [:new, :create,:show]
     get "/", PageController, :index
   end
 
