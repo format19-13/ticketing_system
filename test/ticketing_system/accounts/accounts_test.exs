@@ -68,4 +68,124 @@ defmodule TicketingSystem.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
+
+  describe "roles" do
+    alias TicketingSystem.Accounts.Role
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def role_fixture(attrs \\ %{}) do
+      {:ok, role} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_role()
+
+      role
+    end
+
+    test "list_roles/0 returns all roles" do
+      role = role_fixture()
+      assert Accounts.list_roles() == [role]
+    end
+
+    test "get_role!/1 returns the role with given id" do
+      role = role_fixture()
+      assert Accounts.get_role!(role.id) == role
+    end
+
+    test "create_role/1 with valid data creates a role" do
+      assert {:ok, %Role{} = role} = Accounts.create_role(@valid_attrs)
+      assert role.name == "some name"
+    end
+
+    test "create_role/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_role(@invalid_attrs)
+    end
+
+    test "update_role/2 with valid data updates the role" do
+      role = role_fixture()
+      assert {:ok, role} = Accounts.update_role(role, @update_attrs)
+      assert %Role{} = role
+      assert role.name == "some updated name"
+    end
+
+    test "update_role/2 with invalid data returns error changeset" do
+      role = role_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_role(role, @invalid_attrs)
+      assert role == Accounts.get_role!(role.id)
+    end
+
+    test "delete_role/1 deletes the role" do
+      role = role_fixture()
+      assert {:ok, %Role{}} = Accounts.delete_role(role)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_role!(role.id) end
+    end
+
+    test "change_role/1 returns a role changeset" do
+      role = role_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_role(role)
+    end
+  end
+
+  describe "registrations" do
+    alias TicketingSystem.Accounts.Registration
+
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
+
+    def registration_fixture(attrs \\ %{}) do
+      {:ok, registration} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_registration()
+
+      registration
+    end
+
+    test "list_registrations/0 returns all registrations" do
+      registration = registration_fixture()
+      assert Accounts.list_registrations() == [registration]
+    end
+
+    test "get_registration!/1 returns the registration with given id" do
+      registration = registration_fixture()
+      assert Accounts.get_registration!(registration.id) == registration
+    end
+
+    test "create_registration/1 with valid data creates a registration" do
+      assert {:ok, %Registration{} = registration} = Accounts.create_registration(@valid_attrs)
+      assert registration.name == "some name"
+    end
+
+    test "create_registration/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_registration(@invalid_attrs)
+    end
+
+    test "update_registration/2 with valid data updates the registration" do
+      registration = registration_fixture()
+      assert {:ok, registration} = Accounts.update_registration(registration, @update_attrs)
+      assert %Registration{} = registration
+      assert registration.name == "some updated name"
+    end
+
+    test "update_registration/2 with invalid data returns error changeset" do
+      registration = registration_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_registration(registration, @invalid_attrs)
+      assert registration == Accounts.get_registration!(registration.id)
+    end
+
+    test "delete_registration/1 deletes the registration" do
+      registration = registration_fixture()
+      assert {:ok, %Registration{}} = Accounts.delete_registration(registration)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_registration!(registration.id) end
+    end
+
+    test "change_registration/1 returns a registration changeset" do
+      registration = registration_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_registration(registration)
+    end
+  end
 end

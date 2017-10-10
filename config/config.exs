@@ -22,6 +22,14 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :cloak, Cloak.AES.CTR,
+  tag: "AES",
+  default: true,
+  keys: [
+    %{tag: <<1>>, key: :base64.decode(:crypto.strong_rand_bytes(32) |> Base.encode64), default: true}
+  ]
+
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
