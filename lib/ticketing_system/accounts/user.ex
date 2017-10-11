@@ -1,8 +1,10 @@
 defmodule TicketingSystem.Accounts.User do
   use Ecto.Schema
+
   import Ecto.Changeset
   alias Cloak.EncryptedBinaryField
   alias TicketingSystem.Accounts.User
+  alias TicketingSystem.Accounts.Role
 
   schema "users" do
     field :email, :string
@@ -19,14 +21,13 @@ defmodule TicketingSystem.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:name, :password, :lastname, :email, :role])
-    |> validate_required([:name, :password, :lastname, :email, :role])
+    |> cast(attrs, [:name, :password, :lastname, :email])
+    |> cast_assoc(:role, required: true, with: &Role.changeset/2)
+    |> validate_required([:name, :password, :lastname, :email])
     |> unique_constraint(:email)
-    |> cast_assoc(:role)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 5)
     |> validate_confirmation(:password)
-    |> cast(attrs, ~w(password), ~w(encryption_version))
     |> put_change(:encryption_version, Cloak.version)
     |> put_change(:is_active, false)
   end

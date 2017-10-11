@@ -26,8 +26,16 @@ config :cloak, Cloak.AES.CTR,
   tag: "AES",
   default: true,
   keys: [
-    %{tag: <<1>>, key: :base64.decode(:crypto.strong_rand_bytes(32) |> Base.encode64), default: true}
+    %{
+      tag: <<1>>,
+      key: :base64.decode("2CJtBImYfIdlBKR0164Ys6xg+lAWaqaCVUrlK9OIKUE="),
+      default: true
+    }
   ]
+
+  config :cloak, :migration,
+  repo: TicketingSystem.Repo,
+  models: [{TicketingSystem.Accounts.User, :encryption_version}]
 
 
 # Import environment specific config. This must remain at the bottom

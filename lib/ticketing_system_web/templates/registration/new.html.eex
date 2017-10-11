@@ -6,7 +6,7 @@
       <p>Oops, something went wrong! Please check the errors below:</p>
     </div>
   <% end %>
-<%= inputs_for f, :user, fn _ -> %>
+
   <div class="form-group">
       <label>First name</label>
       <%= text_input f, :name, class: "form-control" %>
@@ -36,14 +36,12 @@
     <%= password_input f, :password_confirmation, class: "form-control" %>
     <%= error_tag f, :password_confirmation %>
   </div>
- <% end %>
-<%= inputs_for f, :role, fn _ -> %>
+
+
+<%= inputs_for f, :role, fn fr -> %>
   <div class="form-group">
     <label>Role</label>
-      <select id="name" name="name" class="form-control selcls">
-      <option value="admin">Admin</option>
-      <option value="operator">Operator</option>
-      </select>
+      <%=select fr, :name,["Admin": "admin", "Operator": "operator"],class: "form-control selcls" %>
   </div>
  <% end %>
 

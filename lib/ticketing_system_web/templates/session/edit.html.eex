@@ -1,0 +1,5 @@
+<h2>Edit Session</h2>
+
+<%= render "form.html", Map.put(assigns, :action, session_path(@conn, :update, @session)) %>
+
+<span><%= link "Back", to: session_path(@conn, :index) %></span>

@@ -22,6 +22,7 @@ defmodule TicketingSystem.Repo.Migrations.CreateApp do
     create unique_index(:users, :email, name: :email_unique_index)
 
     create table(:agents) do
+      add :role, :string
       add :user_id, references(:users, on_delete: :delete_all), null: false
 
       timestamps()

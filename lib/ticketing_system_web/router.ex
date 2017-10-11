@@ -17,6 +17,7 @@ defmodule TicketingSystemWeb.Router do
     pipe_through :browser # Use the default browser stack
     resources "/users", UserController, only: [:new, :create, :show]
     resources "/registration", RegistrationController, only: [:new, :create]
+    resources "/session", SessionController, only: [:new, :create, :delete]
     get "/", PageController, :index
   end
 

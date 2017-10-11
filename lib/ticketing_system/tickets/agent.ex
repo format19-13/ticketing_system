@@ -5,7 +5,7 @@ defmodule TicketingSystem.Tickets.Agent do
 
 
   schema "agents" do
-    field :role, :string
+    belongs_to :user, TicketingSystem.Accounts.User
 
     timestamps()
   end
@@ -13,7 +13,5 @@ defmodule TicketingSystem.Tickets.Agent do
   @doc false
   def changeset(%Agent{} = agent, attrs) do
     agent
-    |> cast(attrs, [:role])
-    |> validate_required([:role])
   end
 end
