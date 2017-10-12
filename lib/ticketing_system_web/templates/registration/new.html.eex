@@ -48,4 +48,6 @@
   <div class="form-group">
     <%= submit "Signup", class: "btn btn-primary" %>
   </div>
+
+
 <% end %>

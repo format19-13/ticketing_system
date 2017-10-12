@@ -5,6 +5,7 @@ defmodule TicketingSystemWeb.RegistrationController do
   alias TicketingSystem.Registrations
   alias TicketingSystem.Accounts.Role
   alias TicketingSystem.Accounts.User
+    alias TicketingSystem.Session
 
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{role: %Role{}})
@@ -15,9 +16,8 @@ defmodule TicketingSystemWeb.RegistrationController do
     case Registrations.register_user(user_params) do
       {:ok, user} ->
         conn
-        |> put_session(:current_user, user.id)
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: user_path(conn, :show, user))
+        render(conn, "congrats.html")
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

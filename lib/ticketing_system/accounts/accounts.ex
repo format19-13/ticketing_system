@@ -1,8 +1,8 @@
 defmodule TicketingSystem.Accounts do
 
   import Ecto.Query, warn: false
+  import TicketingSystem.Accounts.Authentication
   alias TicketingSystem.Repo
-
   alias TicketingSystem.Accounts.User
 
   def list_users do
@@ -12,6 +12,7 @@ defmodule TicketingSystem.Accounts do
   def get_user!(id), do:
     User
     |> Repo.get!(id)
+    |> Repo.preload(:role)
 
   def create_user(attrs \\ %{}) do
     %User{}
@@ -61,4 +62,21 @@ defmodule TicketingSystem.Accounts do
     Role.changeset(role, %{})
   end
 
+  alias TicketingSystem.Accounts.Authentication
+
+  def try_to_login(conn, params) do
+    Authentication.try_to_login(conn, params)
+  end
+
+  def login(conn, user) do
+    Authentication.try_to_login(conn, user)
+  end
+
+  def is_admin?(conn) do
+      Authentication.is_admin?(conn)
+  end
+
+  def logged_in?(conn) do
+      Authentication.logged_in?(conn)
+  end
 end

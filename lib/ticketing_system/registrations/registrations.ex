@@ -4,7 +4,7 @@ defmodule TicketingSystem.Registrations do
   alias Ecto.Multi
   alias TicketingSystem.Repo
   alias TicketingSystem.Tickets
-    alias TicketingSystem.Tickets.Agent
+  alias TicketingSystem.Tickets.Agent
   alias TicketingSystem.Accounts
 
 def register_user(params) do

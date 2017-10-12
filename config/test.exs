@@ -11,9 +11,9 @@ config :logger, level: :warn
 
 # Configure your database
 config :ticketing_system, TicketingSystem.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "ticketing_system_test",
-  hostname: "localhost",
+adapter: Ecto.Adapters.MySQL,
+username: "root",
+password: "patricia",
+database: "ticketing_system_dev",
+hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

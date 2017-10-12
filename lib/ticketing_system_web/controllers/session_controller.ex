@@ -3,7 +3,6 @@ defmodule TicketingSystemWeb.SessionController do
   use TicketingSystemWeb, :controller
 
   alias TicketingSystem.Accounts
-  alias TicketingSystem.Session
 
   def index(conn, _params) do
     dummies = Accounts.list_dummies()
@@ -15,15 +14,14 @@ defmodule TicketingSystemWeb.SessionController do
   end
 
   def create(conn, %{"session" => session_params}) do
-  case Session.login(session_params, TicketingSystem.Repo) do
+  case Accounts.try_to_login(conn, session_params) do
     {:ok, user} ->
       conn
-      |> put_session(:current_user, user.id)
       |> put_flash(:info, "Logged in")
       |> redirect(to: "/")
     :error ->
       conn
-      |> put_flash(:info, "Wrong email or password")
+      |> put_flash(:error, "Wrong email or password")
       |> render("new.html")
   end
 end
@@ -52,12 +50,10 @@ end
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    session = Accounts.get_session!(id)
-    {:ok, _session} = Accounts.delete_session(session)
-
-    conn
-    |> put_flash(:info, "Session deleted successfully.")
-    |> redirect(to: session_path(conn, :index))
-  end
+  def delete(conn, _) do
+  conn
+  |> delete_session(:current_user)
+  |> put_flash(:info, "Logged out")
+  |> redirect(to: "/")
+end
 end
