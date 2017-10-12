@@ -4,6 +4,7 @@ defmodule TicketingSystem.Accounts do
   import TicketingSystem.Accounts.Authentication
   alias TicketingSystem.Repo
   alias TicketingSystem.Accounts.User
+  alias TicketingSystem.Accounts.Role
 
   def list_users do
     Repo.all(User)
@@ -15,9 +16,18 @@ defmodule TicketingSystem.Accounts do
     |> Repo.preload(:role)
 
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    role_name = attrs["role"]["name"]
+    role = Repo.get_by(Role, name: role_name)
+    case role do
+      nil ->
+        %User{role: nil}
+        |> User.changeset(attrs)
+      role ->
+        attrs = Map.put(attrs, "role_id", role.id)
+        %User{}
+        |> User.changeset(attrs)
+        |> Repo.insert
+    end
   end
 
   def update_user(%User{} = user, attrs) do

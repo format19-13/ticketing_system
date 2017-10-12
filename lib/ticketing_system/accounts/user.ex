@@ -6,6 +6,8 @@ defmodule TicketingSystem.Accounts.User do
   alias TicketingSystem.Accounts.User
   alias TicketingSystem.Accounts.Role
 
+  @timestamps_opts [usec: Mix.env != :test]
+
   schema "users" do
     field :email, :string
     field :lastname, :string
@@ -21,9 +23,9 @@ defmodule TicketingSystem.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:name, :password, :lastname, :email])
-    |> cast_assoc(:role, required: true, with: &Role.changeset/2)
-    |> validate_required([:name, :password, :lastname, :email])
+    |> cast(attrs, [:name, :password, :lastname, :email, :role_id])
+    |> validate_required([:name, :password, :lastname, :email, :role_id])
+    |> foreign_key_constraint(:role_id)
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 5)
@@ -31,5 +33,6 @@ defmodule TicketingSystem.Accounts.User do
     |> put_change(:encryption_version, Cloak.version)
     |> put_change(:is_active, false)
   end
+
 
 end

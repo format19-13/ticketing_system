@@ -2,76 +2,46 @@ defmodule TicketingSystemWeb.SessionControllerTest do
   use TicketingSystemWeb.ConnCase
 
   alias TicketingSystem.Accounts
-
-  @create_attrs %{lastname: "some lastname", name: "some name"}
-  @update_attrs %{lastname: "some updated lastname", name: "some updated name"}
-  @invalid_attrs %{lastname: nil, name: nil}
-
-  def fixture(:session) do
-    {:ok, session} = Accounts.create_session(@create_attrs)
-    session
-  end
-
-  describe "index" do
-    test "lists all dummies", %{conn: conn} do
-      conn = get conn, session_path(conn, :index)
-      assert html_response(conn, 200) =~ "Listing Dummies"
-    end
-  end
-
-  describe "new session" do
-    test "renders form", %{conn: conn} do
-      conn = get conn, session_path(conn, :new)
-      assert html_response(conn, 200) =~ "New Session"
-    end
-  end
+  alias TicketingSystem.Accounts.User
 
   describe "create session" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post conn, session_path(conn, :create), session: @create_attrs
-
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == session_path(conn, :show, id)
-
-      conn = get conn, session_path(conn, :show, id)
-      assert html_response(conn, 200) =~ "Show Session"
+    setup do
+      {:ok, role}  = TestHelper.create_role(%{name: "admin"})
+      {:ok, user}  = {:ok, user} = TestHelper.create_user(role, %{email: "test@test.com", name: "testuser", password: "test"})
+      {:ok, conn: build_conn()}
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post conn, session_path(conn, :create), session: @invalid_attrs
-      assert html_response(conn, 200) =~ "New Session"
-    end
-  end
+ test "shows the login form", %{conn: conn} do
+   conn = get conn, session_path(conn, :new)
+   assert html_response(conn, 200) =~ "Login"
+ end
 
-  describe "edit session" do
-    setup [:create_session]
+ test "creates a new user session for a valid user", %{conn: conn} do
+   conn = post conn, session_path(conn, :create), user: %{email: "test@test.com", password: "test"}
+   assert get_session(conn, :current_user)
+   assert get_flash(conn, :info) == "Sign in successful!"
+   assert redirected_to(conn) == page_path(conn, :index)
+ end
 
-    test "renders form for editing chosen session", %{conn: conn, session: session} do
-      conn = get conn, session_path(conn, :edit, session)
-      assert html_response(conn, 200) =~ "Edit Session"
-    end
-  end
+ test "does not create a session with a bad login", %{conn: conn} do
+   conn = post conn, session_path(conn, :create), user: %{username: "test@test.com", password: "wrong"}
+   refute get_session(conn, :current_user)
+   assert get_flash(conn, :error) == "Invalid username/password combination!"
+ end
 
-  describe "update session" do
-    setup [:create_session]
-
-    test "redirects when data is valid", %{conn: conn, session: session} do
-      conn = put conn, session_path(conn, :update, session), session: @update_attrs
-      assert redirected_to(conn) == session_path(conn, :show, session)
-
-      conn = get conn, session_path(conn, :show, session)
-      assert html_response(conn, 200) =~ "some updated lastname"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, session: session} do
-      conn = put conn, session_path(conn, :update, session), session: @invalid_attrs
-      assert html_response(conn, 200) =~ "Edit Session"
-    end
-  end
+ test "does not create a session if user does not exist", %{conn: conn} do
+   conn = post conn, session_path(conn, :create), user: %{username: "foo", password: "wrong"}
+   refute get_session(conn, :current_user)
+   assert get_flash(conn, :error) == "Invalid username/password combination!"
+ end
+end
 
   describe "delete session" do
-    setup [:create_session]
-
+    setup do
+      User.changeset(%User{}, %{name: "test", password: "test", email: "test@test.com"})
+      |> Repo.insert
+      {:ok, conn: build_conn()}
+    end
     test "deletes chosen session", %{conn: conn, session: session} do
       conn = delete conn, session_path(conn, :delete, session)
       assert redirected_to(conn) == session_path(conn, :index)
@@ -81,8 +51,4 @@ defmodule TicketingSystemWeb.SessionControllerTest do
     end
   end
 
-  defp create_session(_) do
-    session = fixture(:session)
-    {:ok, session: session}
-  end
 end

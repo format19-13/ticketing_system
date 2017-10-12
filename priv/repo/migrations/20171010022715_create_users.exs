@@ -7,6 +7,7 @@ defmodule TicketingSystem.Repo.Migrations.CreateApp do
 
       timestamps()
     end
+    create unique_index(:roles, :name)
 
     create table(:users) do
       add :name, :string

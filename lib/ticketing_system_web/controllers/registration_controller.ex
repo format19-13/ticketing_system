@@ -1,6 +1,5 @@
 defmodule TicketingSystemWeb.RegistrationController do
   use TicketingSystemWeb, :controller
-
   alias TicketingSystem.Accounts
   alias TicketingSystem.Registrations
   alias TicketingSystem.Accounts.Role

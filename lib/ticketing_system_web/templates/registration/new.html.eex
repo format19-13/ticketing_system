@@ -42,7 +42,9 @@
   <div class="form-group">
     <label>Role</label>
       <%=select fr, :name,["Admin": "admin", "Operator": "operator"],class: "form-control selcls" %>
+      <%= error_tag fr, :name %>
   </div>
+
  <% end %>
 
   <div class="form-group">

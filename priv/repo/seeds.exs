@@ -1,3 +1,4 @@
+
 alias TicketingSystem.Repo
 
 alias TicketingSystem.Accounts.Role
@@ -20,5 +21,5 @@ Repo.insert! %User{
     email: "simple@email.com",
     password: "root",
     is_active: true,
-    role_id: admin.id
+    role: admin
 }

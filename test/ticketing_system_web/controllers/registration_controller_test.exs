@@ -2,21 +2,15 @@ defmodule TicketingSystemWeb.RegistrationControllerTest do
   use TicketingSystemWeb.ConnCase
 
   alias TicketingSystem.Accounts
+  alias TicketingSystem.TestHelper
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
   def fixture(:registration) do
-    {:ok, registration} = Accounts.create_registration(@create_attrs)
-    registration
-  end
-
-  describe "index" do
-    test "lists all registrations", %{conn: conn} do
-      conn = get conn, registration_path(conn, :index)
-      assert html_response(conn, 200) =~ "Listing Registrations"
-    end
+  {:ok, user_role}     = TestHelper.create_role(%{name: "user", admin: false})
+   {:ok, nonadmin_user} = TestHelper.create_user(user_role, %{email: "nonadmin@test.com", username: "nonadmin", password: "test", password_confirmation: "test"})
   end
 
   describe "new registration" do
@@ -40,44 +34,6 @@ defmodule TicketingSystemWeb.RegistrationControllerTest do
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post conn, registration_path(conn, :create), registration: @invalid_attrs
       assert html_response(conn, 200) =~ "New Registration"
-    end
-  end
-
-  describe "edit registration" do
-    setup [:create_registration]
-
-    test "renders form for editing chosen registration", %{conn: conn, registration: registration} do
-      conn = get conn, registration_path(conn, :edit, registration)
-      assert html_response(conn, 200) =~ "Edit Registration"
-    end
-  end
-
-  describe "update registration" do
-    setup [:create_registration]
-
-    test "redirects when data is valid", %{conn: conn, registration: registration} do
-      conn = put conn, registration_path(conn, :update, registration), registration: @update_attrs
-      assert redirected_to(conn) == registration_path(conn, :show, registration)
-
-      conn = get conn, registration_path(conn, :show, registration)
-      assert html_response(conn, 200) =~ "some updated name"
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, registration: registration} do
-      conn = put conn, registration_path(conn, :update, registration), registration: @invalid_attrs
-      assert html_response(conn, 200) =~ "Edit Registration"
-    end
-  end
-
-  describe "delete registration" do
-    setup [:create_registration]
-
-    test "deletes chosen registration", %{conn: conn, registration: registration} do
-      conn = delete conn, registration_path(conn, :delete, registration)
-      assert redirected_to(conn) == registration_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get conn, registration_path(conn, :show, registration)
-      end
     end
   end
 

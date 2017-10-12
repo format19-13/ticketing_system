@@ -12,7 +12,7 @@ defmodule TicketingSystem.Plugs.RequireAuth do
         conn
         |> Plug.Conn.put_session(:redirect_url, conn.request_path)
         |> Phoenix.Controller.put_flash(:info, "Please log in or register to continue.")
-        |> Phoenix.Controller.redirect(to: Helpers.registration_path(conn, :new))
+        |> Phoenix.Controller.redirect(to: Helpers.registration_path(:new))
       _ ->
         conn
     end

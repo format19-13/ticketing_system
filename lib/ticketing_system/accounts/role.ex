@@ -3,7 +3,8 @@ defmodule TicketingSystem.Accounts.Role do
   import Ecto.Changeset
   alias TicketingSystem.Accounts.Role
 
-
+  @timestamps_opts [usec: Mix.env != :test]
+  
   schema "roles" do
     field :name, :string
     has_many :users, TicketingSystem.Accounts.User
