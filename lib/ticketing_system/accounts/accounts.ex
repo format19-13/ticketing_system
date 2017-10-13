@@ -1,7 +1,6 @@
 defmodule TicketingSystem.Accounts do
 
   import Ecto.Query, warn: false
-  import TicketingSystem.Accounts.Authentication
   alias TicketingSystem.Repo
   alias TicketingSystem.Accounts.User
   alias TicketingSystem.Accounts.Role
@@ -89,4 +88,13 @@ defmodule TicketingSystem.Accounts do
   def logged_in?(conn) do
       Authentication.logged_in?(conn)
   end
+
+  def get_authenticated_user_id(conn) do
+      Authentication.get_authenticated_user_id(conn)
+  end
+
+  def logout(conn) do
+      Authentication.logout(conn)
+  end
+
 end

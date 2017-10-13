@@ -1,7 +1,9 @@
 defmodule TicketingSystem.Accounts.Authentication do
+  require Logger
   import Ecto.Query, warn: false
   import Plug.Conn
   alias TicketingSystem.Repo
+
 
   alias TicketingSystem.Accounts.User
   alias TicketingSystem.Accounts.Role
@@ -19,7 +21,11 @@ defmodule TicketingSystem.Accounts.Authentication do
   def login(conn, user) do
       conn
       |> put_session(:current_user, user.id)
-      |> configure_session(renew: true)
+  end
+
+  def logout(conn) do
+      conn
+      |> delete_session(:current_user)
   end
 
   defp should_authenticate(user, _) when is_nil(user), do: false
@@ -27,10 +33,20 @@ defmodule TicketingSystem.Accounts.Authentication do
   defp should_authenticate(_, _) , do: false
 
   def logged_in?(conn) do
-     case current_user(conn) do
-      %User{} -> true
-      _ -> false
+    id = get_session(conn, :current_user)
+    Logger.debug  Kernel.inspect(id)
+    case id do
+      nil -> false
+      _ -> true
     end
+  end
+
+  def get_authenticated_user_id(conn) do
+     ret = get_session(conn, :current_user)
+     case ret do
+       nil -> 1
+       _ -> ret
+     end
   end
 
   def current_user(conn) do
