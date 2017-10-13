@@ -36,7 +36,8 @@ defmodule TicketingSystemWeb.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_ticketing_system_key",
-    signing_salt: "ZY09sr2q"
+    signing_salt: "ZY09sr2q",
+    max_age: 86400
 
   plug TicketingSystemWeb.Router
 

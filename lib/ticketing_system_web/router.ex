@@ -13,10 +13,25 @@ defmodule TicketingSystemWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", TicketingSystemWeb do
-    pipe_through :browser # Use the default browser stack
+  pipeline :not_authenticated do
+    plug TicketingSystem.Plugs.RedirectAuthenticated, repo: Auth.Repo
+  end
 
+  pipeline :authenticated do
+    plug TicketingSystem.Plugs.RequireAuth, repo: Auth.Repo
+  end
+
+  scope "/", TicketingSystemWeb do
+    pipe_through [:browser, :authenticated]
+    resources "/session", SessionController, only: [:delete]
     get "/", PageController, :index
+  end
+
+  scope "/", TicketingSystemWeb do
+    pipe_through [:browser, :not_authenticated]
+    resources "/users", UserController, only: [:new, :create, :show]
+    resources "/registration", RegistrationController, only: [:new, :create]
+    resources "/session", SessionController, only: [:new, :create]
   end
 
   # Other scopes may use custom stacks.
