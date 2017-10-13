@@ -24,7 +24,7 @@ defmodule TicketingSystem.Accounts.User do
   def changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, [:name, :password, :lastname, :email, :role_id])
-    |> validate_required([:name, :password, :lastname, :email, :role_id])
+    |> validate_required([:name, :password, :lastname, :email])
     |> foreign_key_constraint(:role_id)
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)

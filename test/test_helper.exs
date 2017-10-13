@@ -2,7 +2,7 @@ ExUnit.start()
 
 Ecto.Adapters.SQL.Sandbox.mode(TicketingSystem.Repo, :manual)
 defmodule TicketingSystem.TestHelper do
-
+use TicketingSystemWeb.ConnCase
 import Ecto, only: [build_assoc: 2]
 alias TicketingSystem.Repo
 alias TicketingSystem.Accounts.User
@@ -26,6 +26,16 @@ alias TicketingSystem.Accounts.Role
     {:ok, role} = create_role(%{name: "admin"})
     {:ok, user} = create_user(role, attrs)
     user
+  end
+
+  def build_dummy_conn() do
+    build_conn()
+    |> fetch_session
+    |> put_session( :current_user, nil)
+  end
+
+  def get_current_session(conn) do
+      get_session(conn, :current_user)
   end
 
 end
