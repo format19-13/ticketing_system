@@ -10,7 +10,7 @@ defmodule TicketingSystemWeb.SessionController do
 
   def create(conn, %{"session" => session_params}) do
   case Accounts.try_to_login(conn, session_params) do
-    {:ok, _} ->
+    {:ok, conn} ->
       conn
       |> put_flash(:info, "Logged in")
       |> redirect(to: "/")

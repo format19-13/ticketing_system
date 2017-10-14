@@ -20,6 +20,9 @@
           <li><%= link "Login", to: session_path(@conn, :new) %></li>
           <li>  <%= link "Register", to: registration_path(@conn, :new) %></li>
         <% end %>
+        <%= if logged_in?(@conn) do %>
+          <li>  <%= link "Logout", to: session_path(@conn, :delete, get_authenticated_user_id(@conn)), method: :delete  %></li>
+        <% end %>
       </ul>
     </div>
   </nav>

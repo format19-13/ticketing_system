@@ -13,7 +13,7 @@ defmodule TicketingSystem.Accounts.Authentication do
     case should_authenticate(user, params["password"]) do
       true ->
       login(conn, user)
-      {:ok, user}
+      {:ok, conn}
       _    -> :error
     end
   end
