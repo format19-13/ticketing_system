@@ -1,4 +1,4 @@
-defmodule TicketingSystem.UserApiController do
+defmodule TicketingSystemWeb.UserApiController do
   use TicketingSystemWeb, :controller
   import Ecto.Query
   alias TicketingSystem.Accounts.User

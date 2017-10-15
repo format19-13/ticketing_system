@@ -81,8 +81,8 @@ defmodule TicketingSystem.Accounts do
     Authentication.try_to_login(conn, user)
   end
 
-  def is_admin?(conn) do
-      Authentication.is_admin?(conn)
+  def is_authorized?(conn) do
+      Authentication.is_authorized?(conn)
   end
 
   def logged_in?(conn) do
@@ -93,8 +93,16 @@ defmodule TicketingSystem.Accounts do
       Authentication.get_authenticated_user_id(conn)
   end
 
+  def get_authenticated_user_role(conn) do
+      Authentication.get_authenticated_user_role(conn)
+  end
+
   def logout(conn) do
       Authentication.logout(conn)
+  end
+
+  def get_role_home_page(conn) do
+      Authentication.get_role_home_page(conn)
   end
 
 end

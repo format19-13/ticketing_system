@@ -22,7 +22,10 @@ export default class View extends MainView {
         "columns": [
             { "data": "name" },
             { "data": "lastname" },
-            { "data": "email" }
+            { "data": "email" },
+            { "data": null,
+            "defaultContent": '<button type="button" class="btn btn-success btn-sm btn-space">Approve</button>' +
+            '<button type="button" class="btn btn-danger btn-sm">Reject</button>'}
         ]
       });
       table.on( 'xhr', function ( e, settings, json ) {

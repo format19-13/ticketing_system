@@ -1,6 +1,6 @@
 defmodule TicketingSystemWeb.UserController do
   use TicketingSystemWeb, :controller
-
+  import Ecto.Query
   alias TicketingSystem.Accounts
   alias TicketingSystem.Accounts.User
 

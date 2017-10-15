@@ -1,9 +1,10 @@
-defmodule TicketingSystem.UserApiView do
+defmodule TicketingSystemWeb.UserApiView do
   use TicketingSystemWeb, :view
 
   def render("index.json", %{users: users, draw_number: draw_number}) do
     %{ recordsTotal:  users.total_entries,
        draw: draw_number,
+       bFilter: false,
        recordsFiltered: users.total_entries,
        data: Enum.map(users, &user_josn/1)
      }

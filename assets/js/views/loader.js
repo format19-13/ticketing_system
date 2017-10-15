@@ -1,5 +1,5 @@
 import MainView    from './main';
-import ZipIndexView from './page/users_index_view';
+import UserIndexView from './page/users_index_view';
 
 // Collection of specific view modules
 const views = {

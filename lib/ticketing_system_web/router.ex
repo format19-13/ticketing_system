@@ -21,6 +21,10 @@ defmodule TicketingSystemWeb.Router do
     plug TicketingSystem.Plugs.RequireAuth, repo: Auth.Repo
   end
 
+  pipeline :admin do
+    plug TicketingSystem.Plugs.AministratorRequired, repo: Auth.Repo
+  end
+
   scope "/", TicketingSystemWeb do
     pipe_through [:browser, :authenticated]
     resources "/session", SessionController, only: [:delete]
@@ -36,10 +40,16 @@ defmodule TicketingSystemWeb.Router do
   end
 
   scope "/api", TicketingSystemWeb do
-      pipe_through :api
+      pipe_through [:api]
 
-      resources "/users", UserApiController, only: [:index]
-    end
+      resources "/admin/users", UserApiController, only: [:index]
+  end
+
+  scope "/admin", TicketingSystemWeb do
+        pipe_through [:browser, :authenticated, :admin]
+
+        resources "/users", UserController, only: [:index]
+  end
 
   # Other scopes may use custom stacks.
   # scope "/api", TicketingSystemWeb do

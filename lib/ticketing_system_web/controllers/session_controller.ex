@@ -1,7 +1,6 @@
 defmodule TicketingSystemWeb.SessionController do
-  require Logger
   use TicketingSystemWeb, :controller
-
+  require Logger
   alias TicketingSystem.Accounts
 
   def new(conn, _params) do
@@ -10,10 +9,10 @@ defmodule TicketingSystemWeb.SessionController do
 
   def create(conn, %{"session" => session_params}) do
   case Accounts.try_to_login(conn, session_params) do
-    {:ok, conn} ->
-      conn
+    {:ok, new_conn} ->
+      new_conn
       |> put_flash(:info, "Logged in")
-      |> redirect(to: "/")
+      |> redirect(to: Accounts.get_role_home_page(new_conn))
     :error ->
       conn
       |> put_flash(:error, "Wrong email or password")
