@@ -1,6 +1,6 @@
 defmodule TicketingSystem.Repo do
   use Ecto.Repo, otp_app: :ticketing_system
-
+  use Scrivener, page_size: 25
   @doc """
   Dynamically loads the repository url from the
   DATABASE_URL environment variable.

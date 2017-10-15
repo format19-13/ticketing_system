@@ -24,6 +24,7 @@ defmodule TicketingSystemWeb.Router do
   scope "/", TicketingSystemWeb do
     pipe_through [:browser, :authenticated]
     resources "/session", SessionController, only: [:delete]
+    resources "/users", UserController, only: [:index]
     get "/", PageController, :index
   end
 
@@ -33,6 +34,12 @@ defmodule TicketingSystemWeb.Router do
     resources "/registration", RegistrationController, only: [:new, :create]
     resources "/session", SessionController, only: [:new, :create]
   end
+
+  scope "/api", TicketingSystemWeb do
+      pipe_through :api
+
+      resources "/users", UserApiController, only: [:index]
+    end
 
   # Other scopes may use custom stacks.
   # scope "/api", TicketingSystemWeb do

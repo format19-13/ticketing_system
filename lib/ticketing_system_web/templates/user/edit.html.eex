@@ -1,5 +1,17 @@
 <h2>Edit User</h2>
 
+<div class="table-responsive">
+  <table id="zips" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Zipcode</th>
+      <th>City</th>
+      <th>State</th>
+    </tr>
+  </thead>
+</table>
+</div>
+
 <%= render "form.html", Map.put(assigns, :action, user_path(@conn, :update, @user)) %>
 
 <span><%= link "Back", to: user_path(@conn, :index) %></span>

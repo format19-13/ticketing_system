@@ -33,7 +33,6 @@ defmodule TicketingSystem.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
@@ -43,7 +42,9 @@ defmodule TicketingSystem.Mixfile do
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:plug, "~> 1.4"}
+      {:plug, "~> 1.4"},
+      {:faker, "~> 0.9"},
+      {:scrivener_ecto, "~> 1.0"}
     ]
   end
 
