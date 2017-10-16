@@ -28,27 +28,20 @@ defmodule TicketingSystemWeb.Router do
   scope "/", TicketingSystemWeb do
     pipe_through [:browser, :authenticated]
     resources "/session", SessionController, only: [:delete]
-    resources "/users", UserController, only: [:index]
     get "/", PageController, :index
   end
 
   scope "/", TicketingSystemWeb do
     pipe_through [:browser, :not_authenticated]
-    resources "/users", UserController, only: [:new, :create, :show]
+    resources "/users", UserController, only: [:new, :create]
     resources "/registration", RegistrationController, only: [:new, :create]
     resources "/session", SessionController, only: [:new, :create]
   end
 
-  scope "/api", TicketingSystemWeb do
-      pipe_through [:api]
-
-      resources "/admin/users", UserApiController, only: [:index]
-  end
-
   scope "/admin", TicketingSystemWeb do
-        pipe_through [:browser, :authenticated, :admin]
+      pipe_through [:browser, :authenticated, :admin]
 
-        resources "/users", UserController, only: [:index]
+      resources "/users", UserController, only: [:index, :update]
   end
 
   # Other scopes may use custom stacks.

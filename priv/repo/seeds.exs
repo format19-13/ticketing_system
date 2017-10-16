@@ -38,7 +38,8 @@ Repo.insert! %User{
     email: "simple@email.com",
     password: "root",
     is_active: true,
+    pending_approval: false,
     role: admin
 }
 
- Forge.build_random_users(operator, 5)
+ Forge.build_random_users(operator, 50)

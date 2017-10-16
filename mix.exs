@@ -33,7 +33,7 @@ defmodule TicketingSystem.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.3.0", override: true},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:mariaex, "~> 0.1"},
@@ -44,7 +44,8 @@ defmodule TicketingSystem.Mixfile do
       {:cowboy, "~> 1.0"},
       {:plug, "~> 1.4"},
       {:faker, "~> 0.9"},
-      {:scrivener_ecto, "~> 1.0"}
+      {:rummage_phoenix, "~> 1.2.0"},
+      {:rummage_ecto, "~> 1.0.0", override: true}
     ]
   end
 
