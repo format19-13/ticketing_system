@@ -1,17 +1,20 @@
 defmodule TicketingSystem.Accounts.Authentication do
+  require Logger
   import Ecto.Query, warn: false
   import Plug.Conn
+
   alias TicketingSystem.Repo
+
 
   alias TicketingSystem.Accounts.User
   alias TicketingSystem.Accounts.Role
 
   def try_to_login(conn, params) do
-    user = Repo.get_by(User, email: String.downcase(params["email"]))
+    user = Repo.get_by(User, email: String.downcase(params["email"])) |> Repo.preload(:role)
     case should_authenticate(user, params["password"]) do
       true ->
-      login(conn, user)
-      {:ok, user}
+      new_conn = login(conn, user)
+      {:ok, new_conn}
       _    -> :error
     end
   end
@@ -19,7 +22,13 @@ defmodule TicketingSystem.Accounts.Authentication do
   def login(conn, user) do
       conn
       |> put_session(:current_user, user.id)
-      |> configure_session(renew: true)
+      |> put_session(:user_role, String.to_atom(user.role.name))
+  end
+
+  def logout(conn) do
+      conn
+      |> delete_session(:current_user)
+      |> delete_session(:user_role)
   end
 
   defp should_authenticate(user, _) when is_nil(user), do: false
@@ -27,10 +36,27 @@ defmodule TicketingSystem.Accounts.Authentication do
   defp should_authenticate(_, _) , do: false
 
   def logged_in?(conn) do
-     case current_user(conn) do
-      %User{} -> true
-      _ -> false
+    id = get_session(conn, :current_user)
+    case id do
+      nil -> false
+      _ -> true
     end
+  end
+
+  def get_authenticated_user_id(conn) do
+     get_value_from_session(conn, :current_user)
+  end
+
+  def get_authenticated_user_role(conn) do
+     get_value_from_session(conn, :user_role)
+  end
+
+  defp get_value_from_session(conn, value) do
+     ret = get_session(conn, value)
+     case ret do
+       nil -> nil
+       _ -> ret
+     end
   end
 
   def current_user(conn) do
@@ -38,11 +64,20 @@ defmodule TicketingSystem.Accounts.Authentication do
     if id, do: TicketingSystem.Accounts.get_user!(id)
   end
 
-  def is_admin?(conn) do
-      current_user(conn)
-      |> check_is_admin()
+  def get_role_home_page(conn) do
+    get_authenticated_user_role(conn)
+    |> search_in_config(:role_home_page)
   end
 
-  defp check_is_admin(user) when is_nil(user), do: false
-  defp check_is_admin(%User{role: %Role{name: name}}) when name == "admin", do: true
+  def is_authorized?(conn) do
+    get_authenticated_user_role(conn)
+    |> search_in_config(:role_scopes)
+    |> Enum.any?(fn(role_scope) ->
+      role_scope == Enum.at(String.split(conn.request_path, "/"), 1)
+    end)
+  end
+
+  defp search_in_config(value_to_search, config_scope) do
+    Map.get(Application.get_env(:ticketing_system, config_scope), value_to_search)
+  end
 end

@@ -1,12 +1,16 @@
 defmodule TicketingSystemWeb.UserController do
   use TicketingSystemWeb, :controller
-
+  import Ecto.Query
   alias TicketingSystem.Accounts
   alias TicketingSystem.Accounts.User
+  alias TicketingSystem.Repo
 
-  def index(conn, _params) do
-    users = Accounts.list_users()
-    render(conn, "index.html", users: users)
+  def index(conn, params) do
+    {query, rummage} = User
+    |> User.rummage(params["rummage"])
+       users = Repo.all(from u in query,
+       where: u.pending_approval == true)
+    render(conn, "index.html", users: users, rummage: rummage)
   end
 
   def new(conn, _params) do
@@ -40,10 +44,10 @@ defmodule TicketingSystemWeb.UserController do
     user = Accounts.get_user!(id)
 
     case Accounts.update_user(user, user_params) do
-      {:ok, user} ->
+      {:ok, _ } ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: user_path(conn, :show, user))
+        |> redirect(to: "/admin/users")
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end

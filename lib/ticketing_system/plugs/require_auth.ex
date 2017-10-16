@@ -1,19 +1,18 @@
 defmodule TicketingSystem.Plugs.RequireAuth do
   @behaviour Plug
+  alias TicketingSystem.Accounts
   import Plug.Conn
   import Map
-  alias TicketingSystem.Router.Helpers
 
   def init(default), do: default
 
   def call(conn, _params) do
-    case conn |> Map.get(:assigns, %{}) |> Map.get(:current_user, %{}) do
-      nil ->
+    case Accounts.logged_in?(conn) do
+      false ->
         conn
-        |> Plug.Conn.put_session(:redirect_url, conn.request_path)
         |> Phoenix.Controller.put_flash(:info, "Please log in or register to continue.")
-        |> Phoenix.Controller.redirect(to: Helpers.registration_path(:new))
-      _ ->
+        |> Phoenix.Controller.redirect(to: "/session/new")
+      true ->
         conn
     end
   end

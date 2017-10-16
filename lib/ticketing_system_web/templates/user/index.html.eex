@@ -1,10 +1,13 @@
-<h2>Listing Users</h2>
-
+<h2>Approve reject users</h2>
+<%= if get_flash(@conn, :info) do %>
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span><%= get_flash(@conn, :info) %></span>
+</div>
+<% end %>
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Password</th>
       <th>Name</th>
       <th>Lastname</th>
       <th>Email</th>
@@ -16,19 +19,16 @@
 <%= for user <- @users do %>
     <tr>
       <td><%= user.name %></td>
-      <td><%= user.password %></td>
-      <td><%= user.name %></td>
       <td><%= user.lastname %></td>
-      <td><%= user.email %></td>
+      <td><%= user.email %></td> <!-- Update this line -->
 
       <td class="text-right">
-        <span><%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Edit", to: user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %></span>
-        <span><%= link "Delete", to: user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        <%= link "Approve", to: user_path(@conn, :update, user, user: %{is_active: false, pending_approval: false}) , method: :put,  class: "btn btn-success btn-xs" %>
+        <%= link "Reject", to: user_path(@conn, :update, user, user: %{is_active: false, pending_approval: false}) , method: :put, class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
-</table>
 
-<span><%= link "New User", to: user_path(@conn, :new) %></span>
+</table>
+<%= pagination_link(@conn, @rummage) %>

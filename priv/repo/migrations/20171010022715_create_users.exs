@@ -15,6 +15,7 @@ defmodule TicketingSystem.Repo.Migrations.CreateApp do
       add :lastname, :string
       add :email, :string, null: false
       add :is_active, :boolean
+      add :pending_approval, :boolean
       add :encryption_version, :binary
       add :role_id, references(:roles, on_delete: :delete_all), null: false
 

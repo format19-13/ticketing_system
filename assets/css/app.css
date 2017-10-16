@@ -1,3 +1,26 @@
 /* This file is for your main application css. */
 
 body { padding-top: 40px; }
+
+@media (min-width: 768px) {
+.my-custom-container{
+    width:2000px;
+}}
+
+@media (min-width: 992px) {
+.my-custom-container{
+    width:2000px;
+}}
+
+@media (min-width: 1200px) {
+.my-custom-container{
+    width:2000px;
+}}
+
+.dataTables_filter {
+display: none;
+}
+
+.btn-space {
+    margin-right: 5px;
+}
