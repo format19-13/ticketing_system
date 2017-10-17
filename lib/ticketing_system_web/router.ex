@@ -44,6 +44,12 @@ defmodule TicketingSystemWeb.Router do
       resources "/users", UserController, only: [:index, :update]
   end
 
+  scope "/ticket", TicketingSystemWeb do
+      pipe_through [:browser, :authenticated, :admin]
+
+      resources "/", TicketController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TicketingSystemWeb do
   #   pipe_through :api

@@ -32,7 +32,7 @@ defmodule TicketingSystem.Accounts.Authentication do
   end
 
   defp should_authenticate(user, _) when is_nil(user), do: false
-  defp should_authenticate(%User{password: password} , password_attempted) when (password == password_attempted), do: true
+  defp should_authenticate(%User{password: password, is_active: true} , password_attempted) when (password == password_attempted), do: true
   defp should_authenticate(_, _) , do: false
 
   def logged_in?(conn) do

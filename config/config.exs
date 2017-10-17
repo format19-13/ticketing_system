@@ -40,13 +40,13 @@ config :cloak, Cloak.AES.CTR,
   config :ticketing_system, :role_home_page, %{
     admin: "/admin/users",
     developer: "/admin/users",
-    operator: "/"
+    operator: "/ticket"
   }
 
   config :ticketing_system, :role_scopes, %{
     admin: ["admin"],
     developer: ["admin"],
-    operator: "/"
+    operator: ["ticket"]
   }
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

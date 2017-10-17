@@ -1,0 +1,43 @@
+
+<span><%= link "New Ticket", to: ticket_path(@conn, :new) %></span>
+
+<h2>Ticket dashboard</h2>
+<%= if get_flash(@conn, :info) do %>
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span><%= get_flash(@conn, :info) %></span>
+</div>
+<% end %>
+<%= search_form(@conn, @rummage, [fields:
+[
+  title: %{label: "Search by title", search_type: "like"},
+], button_class: "btn",
+]) %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>Status</th>
+      <th>Asignee </th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for ticket <- @tickets do %>
+    <tr>
+      <td><%= ticket.title %></td>
+      <td><%= ticket.body %></td>
+      <td><%= ticket.status %></td>
+      <td><%= ticket.asignee.alias %></td>
+      <td class="text-right">
+        <span><%= link "Edit", to: ticket_path(@conn, :edit, ticket), class: "btn btn-default btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+
+</table>
+<%= pagination_link(@conn, @rummage) %>
+
+<span><%= link "New Ticket", to: ticket_path(@conn, :new) %></span>

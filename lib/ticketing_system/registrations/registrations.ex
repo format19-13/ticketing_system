@@ -3,8 +3,8 @@ defmodule TicketingSystem.Registrations do
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias TicketingSystem.Repo
-  alias TicketingSystem.Tickets
-  alias TicketingSystem.Tickets.Agent
+  alias TicketingSystem.Ticketing
+  alias TicketingSystem.Ticketing.Agent
   alias TicketingSystem.Accounts
 
 def register_user(params) do
