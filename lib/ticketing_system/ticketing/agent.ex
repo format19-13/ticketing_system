@@ -14,5 +14,7 @@ defmodule TicketingSystem.Ticketing.Agent do
   def changeset(%Agent{} = agent, attrs) do
     agent
     |> cast(attrs, [:user_id, :alias])
+    |> foreign_key_constraint(:user_id)
+    |> unique_constraint(:alias)
   end
 end

@@ -19,6 +19,9 @@ defmodule TicketingSystem.Ticketing.Ticket do
   def changeset(%Ticket{} = ticket, attrs) do
     ticket
     |> cast(attrs, [:title, :body, :status, :author_id, :asignee_id])
-    |> validate_required([:title, :body, :status])
+    |> validate_required([:title, :body, :status, :author_id])
+    |> foreign_key_constraint(:asignee_id)
+    |> foreign_key_constraint(:author_id)
+    |> validate_inclusion(:name, ["open", "closed"])
   end
 end

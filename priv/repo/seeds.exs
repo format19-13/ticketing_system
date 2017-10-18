@@ -21,7 +21,7 @@ defmodule Forge do
         |> User.changeset(%{email: Faker.Internet.email, name: Faker.Name.first_name, password: "password", lastname: Faker.Name.last_name, password_confirmation: "password"})
         |> Repo.insert
         |> build_author_and_asignee()
-        |> build_random_tickets(20)
+        |> build_random_tickets(40)
     end
 
     defp build_author_and_asignee({:ok, user}) do

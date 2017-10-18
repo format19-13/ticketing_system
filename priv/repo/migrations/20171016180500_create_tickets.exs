@@ -12,7 +12,7 @@ defmodule TicketingSystem.Repo.Migrations.CreateTickets do
       timestamps()
     end
 
-    create index(:tickets, [:author_id])
+    create index(:tickets, [:title])
     create index(:tickets, [:asignee_id])
   end
 end

@@ -1,30 +1,31 @@
 defmodule TicketingSystemWeb.TicketController do
   use TicketingSystemWeb, :controller
   use Rummage.Phoenix.Controller
-  import Ecto.Query
+  require Logger
   alias TicketingSystem.Repo
   alias TicketingSystem.Ticketing
-  alias TicketingSystem.Accounts.User
   alias TicketingSystem.Ticketing.Ticket
   alias TicketingSystem.Ticketing.Agent
-  alias Rummage.Ecto.Services.BuildSearchQuery
+  alias TicketingSystem.Utils.QueryBuildUtils
 
   def index(conn, params) do
     user_id = get_session(conn,:current_user)
-
-  {query, rummage} = Ticket
-  |> Ticket.rummage(params["rummage"])
-             tickets = Repo.all(from t in query,
-                     join: a in Agent, where: a.id == t.asignee_id,
-                     join: u in User, where: u.id == a.user_id and u.id == ^user_id )
-                     |>
-                     Repo.preload(:asignee)
-    render(conn, "index.html", tickets: tickets, rummage: rummage)
+    agent = Repo.get_by!(Agent, user_id: user_id)
+    Logger.debug params["field"]
+    query_params = [{params["field"], params["value"]}, {"asignee_id", Integer.to_string(agent.id)}]
+    {query, query_pagination} = Ticket.rummage(Ticket,
+    QueryBuildUtils.add_filters_to_query_map(query_map: params["rummage"], fieds: query_params))
+    tickets = Repo.all(query)
+    |> Repo.preload(:asignee)
+    |> Repo.preload(:author)
+    render(conn, "index.html", tickets: tickets, rummage: query_pagination)
   end
 
   def new(conn, _params) do
+    user_id = get_session(conn,:current_user)
+    agent = Repo.get_by!(Agent, user_id: user_id)
     changeset = Ticketing.change_ticket(%Ticket{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, agent: agent)
   end
 
   def create(conn, %{"ticket" => ticket_params}) do
@@ -40,6 +41,8 @@ defmodule TicketingSystemWeb.TicketController do
 
   def show(conn, %{"id" => id}) do
     ticket = Ticketing.get_ticket!(id)
+    |> Repo.preload(:asignee)
+    |> Repo.preload(:author)
     render(conn, "show.html", ticket: ticket)
   end
 

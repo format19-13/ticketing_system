@@ -1,7 +1,11 @@
 
-<span><%= link "New Ticket", to: ticket_path(@conn, :new) %></span>
 
 <h2>Ticket dashboard</h2>
+<span><%= link "New Ticket", to: ticket_path(@conn, :new), class: "btn btn-success btn-xg" %></span>
+<h4>Filters</h4>
+<span><%= link "All", to: ticket_path(@conn, :index, @tickets) %></span>
+ <span><%= link "Open", to: ticket_path(@conn, :index, "field": "status", "value": "open") %></span>
+  <span><%= link "Closed", to: ticket_path(@conn, :index, "field": "status", "value": "closed") %></span>
 <%= if get_flash(@conn, :info) do %>
 <div class="alert alert-success alert-dismissable">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -20,6 +24,8 @@
       <th>Body</th>
       <th>Status</th>
       <th>Asignee </th>
+      <th>Author </th>
+      <th>Date created </th>
       <th>Action</th>
     </tr>
   </thead>
@@ -30,6 +36,8 @@
       <td><%= ticket.body %></td>
       <td><%= ticket.status %></td>
       <td><%= ticket.asignee.alias %></td>
+      <td><%= ticket.author.alias %></td>
+      <td><%= ticket.inserted_at %></td>
       <td class="text-right">
         <span><%= link "Edit", to: ticket_path(@conn, :edit, ticket), class: "btn btn-default btn-xs" %></span>
       </td>
@@ -39,5 +47,3 @@
 
 </table>
 <%= pagination_link(@conn, @rummage) %>
-
-<span><%= link "New Ticket", to: ticket_path(@conn, :new) %></span>
