@@ -1,4 +1,4 @@
-defmodule TicketingSystem.Plugs.AministratorRequired do
+defmodule TicketingSystem.Plugs.RequirePermissions do
   @behaviour Plug
   alias TicketingSystem.Accounts
 

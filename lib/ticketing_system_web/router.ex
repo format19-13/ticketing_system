@@ -13,35 +13,41 @@ defmodule TicketingSystemWeb.Router do
     plug :accepts, ["json"]
   end
 
-  pipeline :not_authenticated do
-    plug TicketingSystem.Plugs.RedirectAuthenticated, repo: Auth.Repo
+  pipeline :require_not_authenticated do
+    plug TicketingSystem.Plugs.RequireNotAuthenticated, repo: TicketingSystem.Repo
   end
 
-  pipeline :authenticated do
-    plug TicketingSystem.Plugs.RequireAuth, repo: Auth.Repo
+  pipeline :require_authenticated do
+    plug TicketingSystem.Plugs.RequireAuthenticated, repo: TicketingSystem.Repo
   end
 
-  pipeline :admin do
-    plug TicketingSystem.Plugs.AministratorRequired, repo: Auth.Repo
+  pipeline :require_permissions do
+    plug TicketingSystem.Plugs.RequirePermissions, repo: TicketingSystem.Repo
   end
 
   scope "/", TicketingSystemWeb do
-    pipe_through [:browser, :authenticated]
+    pipe_through [:browser, :require_authenticated]
+    resources "/", PageController, only: [:index]
     resources "/session", SessionController, only: [:delete]
-    get "/", PageController, :index
   end
 
   scope "/", TicketingSystemWeb do
-    pipe_through [:browser, :not_authenticated]
-    resources "/users", UserController, only: [:new, :create]
+    pipe_through [:browser, :require_not_authenticated]
+
     resources "/registration", RegistrationController, only: [:new, :create]
     resources "/session", SessionController, only: [:new, :create]
   end
 
   scope "/admin", TicketingSystemWeb do
-      pipe_through [:browser, :authenticated, :admin]
+      pipe_through [:browser, :require_authenticated, :require_permissions]
 
       resources "/users", UserController, only: [:index, :update]
+  end
+
+  scope "/ticket", TicketingSystemWeb do
+      pipe_through [:browser, :require_authenticated, :require_permissions]
+
+      resources "/", TicketController
   end
 
   # Other scopes may use custom stacks.

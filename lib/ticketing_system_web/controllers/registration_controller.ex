@@ -1,10 +1,7 @@
 defmodule TicketingSystemWeb.RegistrationController do
   use TicketingSystemWeb, :controller
-  alias TicketingSystem.Accounts
-  alias TicketingSystem.Registrations
-  alias TicketingSystem.Accounts.Role
-  alias TicketingSystem.Accounts.User
-    alias TicketingSystem.Session
+  alias TicketingSystem.{Accounts, Registrations}
+  alias TicketingSystem.Accounts.{Role, User}
 
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{role: %Role{}})
@@ -13,7 +10,7 @@ defmodule TicketingSystemWeb.RegistrationController do
 
   def create(conn, %{"user" => user_params}) do
     case Registrations.register_user(user_params) do
-      {:ok, user} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "User created successfully.")
         render(conn, "congrats.html")

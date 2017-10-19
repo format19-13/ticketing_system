@@ -14,5 +14,10 @@
   <div class="form-group">
     <%= submit "Login", class: "btn btn-primary" %>
   </div>
-  <% error = get_flash(@conn, :error) %>
+  <%= if get_flash(@conn, :error) do %>
+  <div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span><%= get_flash(@conn, :error) %></span>
+  </div>
+  <% end %>
 <% end %>

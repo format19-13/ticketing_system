@@ -1,0 +1,38 @@
+<h2>Show Ticket</h2>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @ticket.title %>
+  </li>
+
+  <li>
+    <strong>Body:</strong>
+    <%= @ticket.body %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @ticket.status %>
+  </li>
+
+  <li>
+    <strong>Asignee:</strong>
+    <%= @ticket.asignee.alias %>
+  </li>
+
+  <li>
+    <strong>Author:</strong>
+    <%= @ticket.author.alias %>
+  </li>
+
+  <li>
+    <strong>Date created:</strong>
+    <%= @ticket.inserted_at %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: ticket_path(@conn, :edit, @ticket) %></span>
+<span><%= link "Back", to: ticket_path(@conn, :index) %></span>

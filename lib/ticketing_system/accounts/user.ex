@@ -4,8 +4,7 @@ defmodule TicketingSystem.Accounts.User do
   import Ecto.Changeset
   alias Cloak.EncryptedBinaryField
   alias TicketingSystem.Accounts.User
-  alias TicketingSystem.Accounts.Role
-
+ 
   @timestamps_opts [usec: Mix.env != :test]
 
   schema "users" do

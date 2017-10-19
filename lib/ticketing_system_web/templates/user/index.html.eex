@@ -23,7 +23,7 @@
       <td><%= user.email %></td> <!-- Update this line -->
 
       <td class="text-right">
-        <%= link "Approve", to: user_path(@conn, :update, user, user: %{is_active: false, pending_approval: false}) , method: :put,  class: "btn btn-success btn-xs" %>
+        <%= link "Approve", to: user_path(@conn, :update, user, user: %{is_active: true, pending_approval: false}) , method: :put,  class: "btn btn-success btn-xs" %>
         <%= link "Reject", to: user_path(@conn, :update, user, user: %{is_active: false, pending_approval: false}) , method: :put, class: "btn btn-danger btn-xs" %>
       </td>
     </tr>

@@ -1,14 +1,11 @@
 defmodule TicketingSystem.Registrations do
-  require Logger
   import Ecto.Query, warn: false
   alias Ecto.Multi
-  alias TicketingSystem.Repo
-  alias TicketingSystem.Tickets
-  alias TicketingSystem.Tickets.Agent
-  alias TicketingSystem.Accounts
+  alias TicketingSystem.{Accounts, Repo}
+  alias TicketingSystem.Ticketing.Agent
+
 
 def register_user(params) do
-    Logger.debug inspect(params)
    multi = Multi.new()
    |> Multi.run(:user, fn _ -> Accounts.create_user(params) end)
    |> Multi.run(:agent, fn %{user: user} ->
