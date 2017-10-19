@@ -1,10 +1,6 @@
-defmodule TicketingSystem.Plugs.RedirectAuthenticated do
+defmodule TicketingSystem.Plugs.RequireNotAuthenticated do
   @behaviour Plug
-  import Plug.Conn
-  import Map
-  alias TicketingSystem.Router.Helpers
   alias TicketingSystem.Accounts
-  alias TicketingSystem.Accounts.User
 
   def init(default), do: default
 
@@ -12,7 +8,7 @@ defmodule TicketingSystem.Plugs.RedirectAuthenticated do
     case Accounts.logged_in?(conn) do
       true ->
         conn
-        |> Phoenix.Controller.redirect(to: "/")
+        |> Phoenix.Controller.redirect(to: Accounts.get_role_home_page(conn))
       false -> conn
     end
   end

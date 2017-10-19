@@ -20,13 +20,13 @@
   <div class="form-group">
     <label>Status</label>
       <%=select f, :status,["Open": "open", "Closed": "closed"],class: "form-control selcls" %>
-      <%= error_tag f, :name %>
+      <%= error_tag f, :status %>
   </div>
 
   <div class="form-group">
     <label>Asignee</label>
       <%= text_input f, :asignee_id, class: "form-control" %>
-      <%= error_tag f, :name %>
+      <%= error_tag f, :asignee_id  %>
   </div>
 
   <div class="form-group">

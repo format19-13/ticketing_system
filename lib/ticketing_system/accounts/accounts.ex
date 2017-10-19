@@ -1,9 +1,8 @@
 defmodule TicketingSystem.Accounts do
-
   import Ecto.Query, warn: false
+
   alias TicketingSystem.Repo
-  alias TicketingSystem.Accounts.User
-  alias TicketingSystem.Accounts.Role
+  alias TicketingSystem.Accounts.{User, Role}
 
   def list_users do
     Repo.all(User)
@@ -78,7 +77,11 @@ defmodule TicketingSystem.Accounts do
   end
 
   def login(conn, user) do
-    Authentication.try_to_login(conn, user)
+      Authentication.try_to_login(conn, user)
+  end
+
+  def logout(conn) do
+      Authentication.logout(conn)
   end
 
   def is_authorized?(conn) do
@@ -95,10 +98,6 @@ defmodule TicketingSystem.Accounts do
 
   def get_authenticated_user_role(conn) do
       Authentication.get_authenticated_user_role(conn)
-  end
-
-  def logout(conn) do
-      Authentication.logout(conn)
   end
 
   def get_role_home_page(conn) do

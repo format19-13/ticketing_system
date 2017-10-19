@@ -1,9 +1,8 @@
 defmodule TicketingSystemWeb.UserController do
   use TicketingSystemWeb, :controller
   import Ecto.Query
-  alias TicketingSystem.Accounts
+  alias TicketingSystem.{Accounts, Repo}
   alias TicketingSystem.Accounts.User
-  alias TicketingSystem.Repo
 
   def index(conn, params) do
     {query, rummage} = User

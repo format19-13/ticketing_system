@@ -1,6 +1,5 @@
 defmodule TicketingSystemWeb.SessionController do
   use TicketingSystemWeb, :controller
-  require Logger
   alias TicketingSystem.Accounts
 
   def new(conn, _params) do

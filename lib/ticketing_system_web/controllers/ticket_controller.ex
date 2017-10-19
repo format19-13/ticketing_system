@@ -1,20 +1,11 @@
 defmodule TicketingSystemWeb.TicketController do
   use TicketingSystemWeb, :controller
   use Rummage.Phoenix.Controller
-  require Logger
-  alias TicketingSystem.Repo
-  alias TicketingSystem.Ticketing
+  alias TicketingSystem.{Repo, Ticketing}
   alias TicketingSystem.Ticketing.Ticket
-  alias TicketingSystem.Ticketing.Agent
-  alias TicketingSystem.Utils.QueryBuildUtils
 
   def index(conn, params) do
-    user_id = get_session(conn,:current_user)
-    agent = Repo.get_by!(Agent, user_id: user_id)
-    Logger.debug params["field"]
-    query_params = [{params["field"], params["value"]}, {"asignee_id", Integer.to_string(agent.id)}]
-    {query, query_pagination} = Ticket.rummage(Ticket,
-    QueryBuildUtils.add_filters_to_query_map(query_map: params["rummage"], fieds: query_params))
+    {query, query_pagination} = Ticket.rummage(Ticket, Ticketing.get_query_for_tickets_asigned_to_user(conn, params))
     tickets = Repo.all(query)
     |> Repo.preload(:asignee)
     |> Repo.preload(:author)
@@ -22,14 +13,14 @@ defmodule TicketingSystemWeb.TicketController do
   end
 
   def new(conn, _params) do
-    user_id = get_session(conn,:current_user)
-    agent = Repo.get_by!(Agent, user_id: user_id)
+    agent =  Ticketing.get_agent_for_authenticated_user(conn)
     changeset = Ticketing.change_ticket(%Ticket{})
     render(conn, "new.html", changeset: changeset, agent: agent)
   end
 
   def create(conn, %{"ticket" => ticket_params}) do
-    case Ticketing.create_ticket(ticket_params) do
+    agent = Ticketing.get_agent_for_authenticated_user(conn)
+    case Ticketing.create_ticket(Map.put(ticket_params, "author_id", agent.id)) do
       {:ok, ticket} ->
         conn
         |> put_flash(:info, "Ticket created successfully.")

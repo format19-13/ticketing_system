@@ -1,8 +1,6 @@
-defmodule TicketingSystem.Plugs.RequireAuth do
+defmodule TicketingSystem.Plugs.RequireAuthenticated do
   @behaviour Plug
   alias TicketingSystem.Accounts
-  import Plug.Conn
-  import Map
 
   def init(default), do: default
 
