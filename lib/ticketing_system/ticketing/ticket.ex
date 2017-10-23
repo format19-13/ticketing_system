@@ -3,7 +3,7 @@ defmodule TicketingSystem.Ticketing.Ticket do
   use Rummage.Ecto
   import Ecto.Changeset
   alias TicketingSystem.Ticketing.Ticket
-
+@timestamps_opts [usec: Mix.env != :test]
 
   schema "tickets" do
     field :body, :string

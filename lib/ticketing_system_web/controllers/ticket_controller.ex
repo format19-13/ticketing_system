@@ -55,13 +55,5 @@ defmodule TicketingSystemWeb.TicketController do
         render(conn, "edit.html", ticket: ticket, changeset: changeset)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    ticket = Ticketing.get_ticket!(id)
-    {:ok, _ticket} = Ticketing.delete_ticket(ticket)
-
-    conn
-    |> put_flash(:info, "Ticket deleted successfully.")
-    |> redirect(to: ticket_path(conn, :index))
-  end
+  
 end

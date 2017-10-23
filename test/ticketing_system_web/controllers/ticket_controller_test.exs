@@ -3,8 +3,8 @@ defmodule TicketingSystemWeb.TicketControllerTest do
 
   alias TicketingSystem.Ticketing
 
-  @create_attrs %{body: "some body", status: "some status", title: "some title"}
-  @update_attrs %{body: "some updated body", status: "some updated status", title: "some updated title"}
+  @create_attrs %{body: "some body", status: "open", title: "some title", author_id: 1, asignee_id: 1}
+  @update_attrs %{body: "some updated body", status: "closed", title: "some updated title"}
   @invalid_attrs %{body: nil, status: nil, title: nil}
 
   def fixture(:ticket) do
@@ -66,18 +66,6 @@ defmodule TicketingSystemWeb.TicketControllerTest do
     test "renders errors when data is invalid", %{conn: conn, ticket: ticket} do
       conn = put conn, ticket_path(conn, :update, ticket), ticket: @invalid_attrs
       assert html_response(conn, 200) =~ "Edit Ticket"
-    end
-  end
-
-  describe "delete ticket" do
-    setup [:create_ticket]
-
-    test "deletes chosen ticket", %{conn: conn, ticket: ticket} do
-      conn = delete conn, ticket_path(conn, :delete, ticket)
-      assert redirected_to(conn) == ticket_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get conn, ticket_path(conn, :show, ticket)
-      end
     end
   end
 

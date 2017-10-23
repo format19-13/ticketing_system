@@ -1,5 +1,6 @@
 defmodule TicketingSystem.Plugs.RequireAuthenticated do
   @behaviour Plug
+  import Plug.Conn
   alias TicketingSystem.Accounts
 
   def init(default), do: default
@@ -9,7 +10,7 @@ defmodule TicketingSystem.Plugs.RequireAuthenticated do
       false ->
         conn
         |> Phoenix.Controller.put_flash(:info, "Please log in or register to continue.")
-        |> Phoenix.Controller.redirect(to: "/session/new")
+        |> Phoenix.Controller.redirect(to: "/session/new") |> halt()
       true ->
         conn
     end

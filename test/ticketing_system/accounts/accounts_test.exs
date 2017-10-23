@@ -3,7 +3,6 @@ defmodule TicketingSystem.AccountsTest do
 
   alias TicketingSystem.Accounts
   alias TicketingSystem.TestHelper
-  @timestamps_opts [usec: Mix.env != :test]
 
   @user_valid_attrs %{"email" => "some@email.com", "lastname" => "some lastname", "name" => "some name",
                 "password" => "some password", "password_confirmation" => "some password", "role" => %{"name" => "admin"}}
@@ -62,7 +61,6 @@ defmodule TicketingSystem.AccountsTest do
     alias TicketingSystem.Accounts.Role
 
     @valid_attrs %{"name" => "developer"}
-    @update_attrs %{"name" =>  "admin"}
     @invalid_attrs %{"name" =>  "not a role"}
 
     def role_fixture(attrs \\ %{}) do
@@ -94,8 +92,6 @@ defmodule TicketingSystem.AccountsTest do
 
   end
 
-  """
-Cant make this tests work, issues with mocking conn before response
 
 describe "sessions" do
 
@@ -122,6 +118,5 @@ describe "sessions" do
     refute TestHelper.get_current_session(conn)
   end
 end
-"""
 
 end
