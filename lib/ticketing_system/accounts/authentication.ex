@@ -48,19 +48,11 @@ defmodule TicketingSystem.Accounts.Authentication do
   end
 
   def get_authenticated_user_id(conn) do
-     get_value_from_session(conn, :current_user)
+     get_session(conn, :current_user)
   end
 
   def get_authenticated_user_role(conn) do
-     get_value_from_session(conn, :user_role)
-  end
-
-  defp get_value_from_session(conn, value) do
-     ret = get_session(conn, value)
-     case ret do
-       nil -> nil
-       _ -> ret
-     end
+     get_session(conn, :user_role)
   end
 
   def get_role_home_page(conn) do

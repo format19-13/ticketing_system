@@ -4,7 +4,7 @@ defmodule TicketingSystem.Accounts.User do
   import Ecto.Changeset
   alias Cloak.EncryptedBinaryField
   alias TicketingSystem.Accounts.User
- 
+
   @timestamps_opts [usec: Mix.env != :test]
 
   schema "users" do
@@ -23,7 +23,7 @@ defmodule TicketingSystem.Accounts.User do
   @doc false
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:name, :password, :lastname, :email, :role_id, :is_active, :pending_approval])
+    |> cast(attrs, [:id, :name, :password, :lastname, :email, :role_id, :is_active, :pending_approval])
     |> validate_required([:name, :password, :lastname, :email])
     |> foreign_key_constraint(:role_id)
     |> unique_constraint(:email)

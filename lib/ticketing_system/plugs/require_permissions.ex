@@ -1,5 +1,6 @@
 defmodule TicketingSystem.Plugs.RequirePermissions do
   @behaviour Plug
+  import Plug.Conn
   alias TicketingSystem.Accounts
 
   def init(default), do: default
@@ -9,7 +10,7 @@ defmodule TicketingSystem.Plugs.RequirePermissions do
       true ->
         conn
       false ->
-        Phoenix.Controller.redirect(conn, to: Accounts.get_role_home_page(conn))
+        Phoenix.Controller.redirect(conn, to: Accounts.get_role_home_page(conn)) |> halt()
     end
   end
 end

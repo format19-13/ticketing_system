@@ -1,7 +1,12 @@
-defmodule TicketingSystem.Repo.Migrations.CreateApp do
+defmodule TicketingSystem.Repo.Migrations.App do
   use Ecto.Migration
 
   def change do
+    drop table (:tickets)
+    drop table(:agents)
+    drop table(:users)
+    drop table(:roles)
+
     create table(:roles) do
       add :name, :string, null: false
 
@@ -21,6 +26,7 @@ defmodule TicketingSystem.Repo.Migrations.CreateApp do
 
       timestamps()
     end
+
     create unique_index(:users, :email, name: :email_unique_index)
 
     create table(:agents) do
@@ -29,5 +35,20 @@ defmodule TicketingSystem.Repo.Migrations.CreateApp do
 
       timestamps()
     end
+
     create unique_index(:agents, :alias)
+
+    create table(:tickets) do
+      add :title, :string
+      add :body, :string
+      add :status, :string
+      add :author_id, references(:agents, on_delete: :nothing)
+      add :asignee_id, references(:agents, on_delete: :nothing)
+
+      timestamps()
+    end
+
+    create index(:tickets, [:title])
+    create index(:tickets, [:asignee_id])
+  end
 end

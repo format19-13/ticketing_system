@@ -45,8 +45,7 @@ defmodule TicketingSystem.Mixfile do
       {:plug, "~> 1.4"},
       {:faker, "~> 0.9"},
       {:rummage_phoenix, "~> 1.2.0"},
-      {:rummage_ecto, "~> 1.0.0", override: true},
-      {:phoenix_form_awesomplete, "~> 0.1"}
+      {:rummage_ecto, "~> 1.0.0", override: true}
     ]
   end
 

@@ -3,7 +3,6 @@ defmodule TicketingSystem.AccountsTest do
 
   alias TicketingSystem.Accounts
   alias TicketingSystem.TestHelper
-  @timestamps_opts [usec: Mix.env != :test]
 
   @user_valid_attrs %{"email" => "some@email.com", "lastname" => "some lastname", "name" => "some name",
                 "password" => "some password", "password_confirmation" => "some password", "role" => %{"name" => "admin"}}
@@ -62,7 +61,6 @@ defmodule TicketingSystem.AccountsTest do
     alias TicketingSystem.Accounts.Role
 
     @valid_attrs %{"name" => "developer"}
-    @update_attrs %{"name" =>  "admin"}
     @invalid_attrs %{"name" =>  "not a role"}
 
     def role_fixture(attrs \\ %{}) do
@@ -94,8 +92,6 @@ defmodule TicketingSystem.AccountsTest do
 
   end
 
-  """
-Cant make this tests work, issues with mocking conn before response
 
 describe "sessions" do
 
@@ -105,23 +101,31 @@ describe "sessions" do
 
   test "creates a new user session for a valid user" do
     TestHelper.create_user(@user_valid_attrs)
-    conn = TestHelper.build_dummy_conn()
-    Accounts.try_to_login(conn, @valid_attrs)
-    assert TestHelper.get_current_session(conn)
+    conn = TestHelper.create_empty_conn()
+    {:ok, new_conn} = Accounts.try_to_login(conn, @valid_attrs)
+    assert TestHelper.get_current_session(new_conn)
+  end
+
+  test "does not creates a new user session for a valid user because isnt approved by an admin" do
+    user = TestHelper.create_user(@user_valid_attrs)
+    Accounts.update_user(user, %{is_active: false})
+    conn = TestHelper.create_empty_conn()
+    result = Accounts.try_to_login(conn, @valid_attrs)
+    assert result == :error
   end
 
   test "does not create a session with a bad login" do
-    conn = TestHelper.build_dummy_conn()
-    Accounts.try_to_login(conn, %{"email" => "some@email.com",  "password" => "not a real password"})
-    refute TestHelper.get_current_session(conn)
+    TestHelper.create_user(@user_valid_attrs)
+    conn = TestHelper.create_empty_conn()
+    result = Accounts.try_to_login(conn, %{"email" => "some@email.com",  "password" => "not his password"})
+    assert result == :error
   end
 
   test "does not create a session if user does not exist" do
-    onn = TestHelper.build_dummy_conn()
-    Accounts.try_to_login(conn, @invalid_attrs)
-    refute TestHelper.get_current_session(conn)
+    conn = TestHelper.create_empty_conn()
+    result = Accounts.try_to_login(conn, @invalid_attrs)
+    assert result == :error
   end
 end
-"""
 
 end
