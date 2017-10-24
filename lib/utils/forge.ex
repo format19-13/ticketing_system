@@ -19,7 +19,8 @@ defmodule TicketingSystem.Utils.Forge do
     def build_random_user(%Role{} = role) do
         role
         |> build_assoc(:users)
-        |> User.changeset(%{email: Faker.Internet.email, name: Faker.Name.first_name, password: "password", lastname: Faker.Name.last_name, password_confirmation: "password"})
+        |> User.changeset(%{email: Faker.Internet.email, name: Faker.Name.first_name, password: "password", password_confirmation: "password",
+        lastname: Faker.Name.last_name, id: 1})
         |> Repo.insert
     end
 

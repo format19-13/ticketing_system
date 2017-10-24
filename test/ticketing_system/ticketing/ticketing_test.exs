@@ -1,8 +1,7 @@
 defmodule TicketingSystem.TicketingTest do
 
   use TicketingSystem.DataCase
-  alias TicketingSystem.Ticketing.{Agent, Ticket}
-  alias TicketingSystem.Utils.Forge
+  alias TicketingSystem.Ticketing.Ticket
   alias TicketingSystem.TestHelper
   alias TicketingSystem.Ticketing
 
@@ -20,7 +19,7 @@ defmodule TicketingSystem.TicketingTest do
 
     test "get_ticket!/1 returns the ticket with given id" do
       ticket = TestHelper.create_ticket(@valid_attrs)
-      assert Ticketing.get_ticket!(ticket.id).id == ticket.id
+      assert Ticketing.get_ticket!(ticket.id) == ticket
     end
 
     test "create_ticket/1 with valid data creates a ticket" do
