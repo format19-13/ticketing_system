@@ -24,7 +24,7 @@
   "poison": {:hex, :poison, "3.1.0", "d9eb636610e096f86f25d9a46f35a9facac35609a7591b3be3326e99a0484665", [:mix], [], "hexpm"},
   "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [:rebar], [], "hexpm"},
   "ranch": {:hex, :ranch, "1.3.2", "e4965a144dc9fbe70e5c077c65e73c57165416a901bd02ea899cfd95aa890986", [:rebar3], [], "hexpm"},
-  "rummage_ecto": {:hex, :rummage_ecto, "1.0.0", "e6b42e8bd567a49b710679a4f175a15613836c75d2b0841af956cc63007c8998", [], [{:ecto, "~> 2.1", [hex: :ecto, repo: "hexpm", optional: false]}], "hexpm"},
+  "rummage_ecto": {:git, "https://github.com/format19-13/rummage_ecto.git", "a8ccb7b67f5a8e82cc5627855630136719fe9594", []},
   "rummage_phoenix": {:hex, :rummage_phoenix, "1.2.0", "cd9804c98e15ec90711e696df82df7f1f1fb56cc4eda4555247934d4d357792a", [], [{:phoenix, "~> 1.2.1", [hex: :phoenix, repo: "hexpm", optional: false]}, {:phoenix_html, "~> 2.6", [hex: :phoenix_html, repo: "hexpm", optional: false]}, {:rummage_ecto, "~> 1.2.0", [hex: :rummage_ecto, repo: "hexpm", optional: false]}], "hexpm"},
   "scrivener": {:hex, :scrivener, "2.3.0", "16b1d744202d47233798205447b35592d96a209241c566304f84ddef63c718b2", [], [], "hexpm"},
   "scrivener_ecto": {:hex, :scrivener_ecto, "1.2.3", "3255aee5cabfccedcb350f7e5f9f540fb72b8705a763612399264b11ae34faa9", [], [{:ecto, "~> 2.0", [hex: :ecto, repo: "hexpm", optional: false]}, {:postgrex, "~> 0.11.0 or ~> 0.12.0 or ~> 0.13.0", [hex: :postgrex, repo: "hexpm", optional: true]}, {:scrivener, "~> 2.3", [hex: :scrivener, repo: "hexpm", optional: false]}], "hexpm"},

@@ -45,7 +45,7 @@ defmodule TicketingSystem.Mixfile do
       {:plug, "~> 1.4"},
       {:faker, "~> 0.9"},
       {:rummage_phoenix, "~> 1.2.0"},
-      {:rummage_ecto, "~> 1.0.0", override: true}
+      {:rummage_ecto, git: "https://github.com/format19-13/rummage_ecto.git", override: true}
     ]
   end
 
