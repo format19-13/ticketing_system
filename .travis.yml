@@ -6,13 +6,11 @@ elixir:
   - 1.5.2
 otp_release:
   - 19.3
-before_install:
- - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS ticketing_system_test;'
- - mysql -u root -e "GRANT ALL PRIVILEGES ON ticketing_system_test.* TO 'root'@'localhost'";
 before_script:
   - mix local.hex --force
   - mix deps.get
   - mix deps.compile
+  - mix ecto.create
   - mix ecto.migrate
 script:
   - mix test
