@@ -1,4 +1,6 @@
 sudo: true
+services:
+  - mysql
 before_install:
   - mysql -e 'CREATE DATABASE ticketing_system_test;'
 language: elixir
