@@ -5,10 +5,12 @@ elixir:
   - 1.5.2
 otp_release:
   - 19.3
+before_install:
+ - mysql -e 'CREATE DATABASE IF NOT EXISTS ticketing_system_test;'
 before_script:
   - mix local.hex --force
   - mix deps.get
   - mix deps.compile
-  - mix ecto.create
+  - mix ecto.migrate
 script:
   - mix test
