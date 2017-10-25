@@ -2,5 +2,5 @@ test:
   <<: *default
   adapter: mysql12
   database: ticketing_system_test
-  username: root
+  username: travis
   encoding: utf8
