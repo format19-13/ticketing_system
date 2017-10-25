@@ -9,11 +9,10 @@ before_install:
  - mysql -u root -e 'CREATE DATABASE IF NOT EXISTS ticketing_system_test;'
  - mysql -u root -e "GRANT ALL ON ticketing_system_test.* TO 'travis'@'localhost';";
 before_script:
-  - MIX_ENV=test mix compile
   - mix local.rebar --force
   - mix local.hex --force
   - mix deps.get
   - mix deps.compile
-  - mix ecto.migrate
+  - MIX_ENV=test mix ecto.migrate
 script:
   - mix test
