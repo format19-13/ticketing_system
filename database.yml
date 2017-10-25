@@ -1,6 +1,0 @@
-test:
-  <<: *default
-  adapter: mysql12
-  database: ticketing_system_test
-  username: travis
-  encoding: utf8
