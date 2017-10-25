@@ -51,7 +51,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :ticketing_system, TicketingSystem.Repo,
   adapter: Ecto.Adapters.MySQL,
-  username: "travis",
+  username: "root",
+  password: "patricia",
   database: "ticketing_system_dev",
   hostname: "localhost",
   pool_size: 10
