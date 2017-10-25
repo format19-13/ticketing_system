@@ -2,6 +2,10 @@ defmodule TicketingSystem.Repo.Migrations.App do
   use Ecto.Migration
 
   def change do
+    drop table (:tickets)
+    drop table(:agents)
+    drop table(:users)
+    drop table(:roles)
 
     create table(:roles) do
       add :name, :string, null: false
