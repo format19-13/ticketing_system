@@ -15,5 +15,5 @@ adapter: Ecto.Adapters.MySQL,
 username: "root",
 password: "",
 database: "ticketing_system_test",
-hostname: "localhost",
+hostname: "127.0.0.1",
 pool: Ecto.Adapters.SQL.Sandbox
