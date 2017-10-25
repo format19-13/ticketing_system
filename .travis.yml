@@ -1,5 +1,6 @@
 services:
   - mysql
+dist: precise
 language: elixir
 elixir:
   - 1.5.2
