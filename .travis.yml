@@ -1,8 +1,6 @@
 sudo: true
 before_install:
-  -  chmod +x ./scripts/*
-  - ./scripts/travis_mysql_5.7.sh
-  - ./scripts/mysql-reset-root-password.sh
+  - mysql -e 'CREATE DATABASE ticketing_system_test;'
 language: elixir
 elixir:
   - 1.5.2
