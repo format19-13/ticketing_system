@@ -5,12 +5,13 @@ defmodule TicketingSystem.Mixfile do
     [
       app: :ticketing_system,
       version: "0.0.1",
-      elixir: "~> 1.4",
+      elixir: "1.5.2",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -45,7 +46,8 @@ defmodule TicketingSystem.Mixfile do
       {:plug, "~> 1.4"},
       {:faker, "~> 0.9"},
       {:rummage_phoenix, "~> 1.2.0"},
-      {:rummage_ecto, git: "https://github.com/format19-13/rummage_ecto.git", override: true}
+      {:rummage_ecto, git: "https://github.com/format19-13/rummage_ecto.git", override: true},
+      {:excoveralls, "~> 0.7", only: :test}
     ]
   end
 
