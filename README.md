@@ -1,4 +1,5 @@
 # TicketingSystem
+[![Build Status](https://secure.travis-ci.org/format19-13/excoveralls.svg?branch=master "Build Status")](http://travis-ci.org/parroty/excoveralls) [![Coverage Status](https://coveralls.io/repos/github/format19-13/ticketing_system/badge.svg?branch=master)](https://coveralls.io/github/format19-13/ticketing_system?branch=master)
 
 To start your Phoenix server:
 
